@@ -1,39 +1,58 @@
 const gameBoard = (() => {
-    console.log('hello');
 
     let boardBoxes = []
     let boxId = 1
 
-    const main = document.querySelector('main')
-    const board = document.createElement('div')
-        board.className = 'gameBoard'
-        main.appendChild(board)
+    const _main = document.querySelector('main')
+    const _board = document.createElement('div')
+        _board.className = 'gameBoard'
+        _main.appendChild(_board)
 
-    for(let i = boardBoxes.length; i <= 8; i++) {
+    const makeBoxes = () => {
+        for(let i = boardBoxes.length; i <= 8; i++) {
+        const box = document.createElement('div')
+            box.classList.add('boardBox')
+            box.id = boxId++
+            _board.appendChild(box)
+            boardBoxes.push(box) 
 
-        if(boardBoxes.length <= 8) {
-            const box = document.createElement('div')
-                box.className = 'boardBox'
-                box.id = boxId
-                boxId++
-                board.appendChild(box)
+            
+    }}
 
-                boardBoxes.push(box)
-        }
-    }
-
-    return {boardBoxes}
-
+    return {boardBoxes, makeBoxes}
 })()
 
-
-console.log(gameBoard.boardBoxes);
-const players = (name, score) => {
+const players = (name, mark, turn, score) => {
     const getName = () => name
+    const getMark = () => mark
+    const getTurn = () => turn
     const getScore = () => score
- 
-    return {name, score}
+
+    return {name, mark, turn, score}
 }
 
-const player1 = players('One')
-console.log(player1.score + ' -- player test');
+const player1 = players('One', 'X', true)
+const player2 = players('Two', 'O', false)
+
+const gamePlay = (() => {
+    gameBoard.makeBoxes()
+
+    for (const box of gameBoard.boardBoxes) {
+        box.addEventListener('pointerup', () => {
+            if(box.classList.contains('played')) {
+                return
+            } else {
+                console.log(box.id);
+                box.classList.add('played')
+                box.textContent = player1.mark || player2.mark 
+            }       
+        })     
+    }
+// player1 has a turn
+
+// then player2 has a turn
+
+// then find position of marks and see if it matches win condiitons
+
+    return {  }
+})()
