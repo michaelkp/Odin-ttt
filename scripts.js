@@ -45,11 +45,25 @@ const gamePlay = (() => {
                 console.log(box.id);
                 box.classList.add('played')
                 box.textContent = player1.mark || player2.mark 
+                togglePlayerTurn()
             }       
         })     
     }
 // player1 has a turn
-
+    const togglePlayerTurn = () => {
+        if(player1.turn === true) {
+            console.log('Player 1');
+            player1.turn = !player1.turn
+            player2.turn = !player2.turn
+            return
+        }
+        if(player2.turn === true) {
+            console.log('Player 2');
+            player1.turn = !player1.turn
+            player2.turn = !player2.turn
+            return 
+        }
+    }
 // then player2 has a turn
 
 // then find position of marks and see if it matches win condiitons
