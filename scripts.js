@@ -47,6 +47,8 @@ const gamePlay = (() => {
                 display.getMark(box)
                 _togglePlayerTurn()
                 winningConditions.player1Index(box)
+                winningConditions.player2Index(box)
+
             }       
         })     
     }
@@ -88,9 +90,12 @@ const winningConditions = ((box) => {
     // let boxMark = box.textContent
     // console.log(boxMark);
     let player1Mark = player1.mark
+    let player2Mark = player2.mark
 
     let boxes = gameBoard.boardBoxes.indexOf(box)
     let winningBoxesPlayer1 = []
+    let winningBoxesPlayer2 = []
+
     const player1Index = (box) => {
         if(box.textContent === player1Mark){
             console.log('LLLLL');
@@ -99,7 +104,14 @@ const winningConditions = ((box) => {
             isWinner(box)
         }
     }
-    let winningBoxesPlayer2 = []
+    const player2Index = (box) => {
+        if(box.textContent === player2Mark){
+            console.log('JJJJJ');
+            winningBoxesPlayer2.push(box)
+            console.log(winningBoxesPlayer2 + ' --Player 1 winning index');
+            isWinner(box)
+        }
+    }
     const rowA = [gameBoard.boardBoxes[0], gameBoard.boardBoxes[1],gameBoard.boardBoxes[2]]
     const rowB = [gameBoard.boardBoxes[3], gameBoard.boardBoxes[4],gameBoard.boardBoxes[5]]
     const rowC = [gameBoard.boardBoxes[6], gameBoard.boardBoxes[7],gameBoard.boardBoxes[8]]
@@ -115,42 +127,91 @@ const winningConditions = ((box) => {
 
     const isWinner = (box) => {
         let boxMark = box.textContent
-
+        // winnig condition for player 1
         if(rowA.every((boxMark) => winningBoxesPlayer1.includes(boxMark))) {
-            console.log('winner');
+            console.log('winner player 1!!!!');
             console.log(box.textContent);
+            return
         }
         if(rowB.every((boxMark) => winningBoxesPlayer1.includes(boxMark))) {
-            console.log('winner');
+            console.log('winner player 1!!!!');
             console.log(box.textContent);
+            return
         }
         if(rowC.every((boxMark) => winningBoxesPlayer1.includes(boxMark))) {
-            console.log('winner');
+            console.log('winner player 1!!!!');
             console.log(box.textContent);
+            return
         }
         if(col1.every((boxMark) => winningBoxesPlayer1.includes(boxMark))) {
-            console.log('winner');
+            console.log('winner player 1!!!!');
             console.log(box.textContent);
+            return
         }
         if(col2.every((boxMark) => winningBoxesPlayer1.includes(boxMark))) {
-            console.log('winner');
+            console.log('winner player 1!!!!');
             console.log(box.textContent);
+            return
         }
         if(col3.every((boxMark) => winningBoxesPlayer1.includes(boxMark))) {
-            console.log('winner');
+            console.log('winner player 1!!!!');
             console.log(box.textContent);
+            return
         }
         if(cross1.every((boxMark) => winningBoxesPlayer1.includes(boxMark))) {
-            console.log('winner');
+            console.log('winner player 1!!!!');
             console.log(box.textContent);
+            return
         }
         if(cross2.every((boxMark) => winningBoxesPlayer1.includes(boxMark))) {
-            console.log('winner');
+            console.log('winner player 1!!!!');
             console.log(box.textContent);
+            return
         }
 
+        // winning coditons for player 2
+        if(rowA.every((boxMark) => winningBoxesPlayer2.includes(boxMark))) {
+            console.log('winner player 2!!!!!');
+            console.log(box.textContent);
+            return
+        }
+        if(rowB.every((boxMark) => winningBoxesPlayer2.includes(boxMark))) {
+            console.log('winner player 2!!!!!');
+            console.log(box.textContent);
+            return
+        }
+        if(rowC.every((boxMark) => winningBoxesPlayer2.includes(boxMark))) {
+            console.log('winner player 2!!!!!');
+            console.log(box.textContent);
+            return
+        }
+        if(col1.every((boxMark) => winningBoxesPlayer2.includes(boxMark))) {
+            console.log('winner player 2!!!!!');
+            console.log(box.textContent);
+            return
+        }
+        if(col2.every((boxMark) => winningBoxesPlayer2.includes(boxMark))) {
+            console.log('winner player 2!!!!!');
+            console.log(box.textContent);
+            return
+        }
+        if(col3.every((boxMark) => winningBoxesPlayer2.includes(boxMark))) {
+            console.log('winner player 2!!!!!');
+            console.log(box.textContent);
+            return
+        }
+        if(cross1.every((boxMark) => winningBoxesPlayer2.includes(boxMark))) {
+            console.log('winner player 2!!!!!');
+            console.log(box.textContent);
+            return
+        }
+        if(cross2.every((boxMark) => winningBoxesPlayer2.includes(boxMark))) {
+            console.log('winner player 2!!!!!');
+            console.log(box.textContent);
+            return
+        }
     }
 
     
-    return {player1Index, winningBoxesPlayer2, isWinner}
+    return {player1Index, player2Index}
 })()
