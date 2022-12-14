@@ -58,12 +58,16 @@ const gamePlay = (() => {
             console.log('Player 1');
             player1.turn = !player1.turn
             player2.turn = !player2.turn
+            display.player2Turn()
+
             return
         }
         if(player2.turn === true) {
             console.log('Player 2');
             player1.turn = !player1.turn
             player2.turn = !player2.turn
+            display.player1Turn()
+
             return 
         }
     }
@@ -75,6 +79,18 @@ const gamePlay = (() => {
 
 const display = (() => {
 
+    const displayText = document.createElement('div')
+    displayText.className = 'displayText'
+    gameBoard.main.insertBefore(displayText, gameBoard.board)
+
+    const player1Turn = () => {
+        displayText.textContent = `Player 1's turn.`
+    }
+
+    const player2Turn = () => {
+        displayText.textContent = `Player 2's turn.`
+    }
+
     const getMark = (box) => {
         if(player1.turn === true) return box.textContent = player1.mark
         if(player2.turn === true) return box.textContent = player2.mark
@@ -82,20 +98,18 @@ const display = (() => {
 
     const winner = (player) => {
         console.log('Winner');
-        const winnerText = document.createElement('p')
-        winnerText.className = 'winnerText'
-        gameBoard.main.insertBefore(winnerText, gameBoard.board)
+        
         if(player === player1) {
             console.log(player1);
             console.log('Player 1 wins!');
-            winnerText.textContent = 'Player 1 Wins!'
+            displayText.textContent = 'Player 1 Wins!'
         } else if (player === player2) {
             console.log(player2);
             console.log('Player 2 wins');
-            winnerText.textContent = 'Player 2 Wins!'
+            displayText.textContent = 'Player 2 Wins!'
         }
     }
-    return { getMark, winner }
+    return { getMark, winner, displayText, player1Turn, player2Turn }
 })()
 
 const winningConditions = (() => {
