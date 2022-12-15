@@ -103,10 +103,13 @@ const display = (() => {
             console.log(player1);
             console.log('Player 1 wins!');
             displayText.textContent = 'Player 1 Wins!'
+            // player1.turn = false
         } else if (player === player2) {
             console.log(player2);
             console.log('Player 2 wins');
             displayText.textContent = 'Player 2 Wins!'
+            // player2.turn = false
+
         }
     }
     return { getMark, winner, displayText, player1Turn, player2Turn }
@@ -148,69 +151,100 @@ const winningConditions = (() => {
         // winnig condition for player 1
         if(rowA.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
             display.winner(player1)
+            player1.turn = false
+            player2.turn = false
             return
         }
         if(rowB.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
             display.winner(player1)
+            player1.turn = false
+            player2.turn = false
             return
         }
         if(rowC.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
             display.winner(player1)
+            player1.turn = false
+            player2.turn = false
             return
         }
         if(col1.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
             display.winner(player1)
+            player1.turn = false
+            player2.turn = false
             return
         }
         if(col2.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
             display.winner(player1)
+            player1.turn = false
+            player2.turn = false
             return
         }
         if(col3.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
             display.winner(player1)
+            player1.turn = false
+            player2.turn = false
             return
         }
         if(cross1.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
             display.winner(player1)
+            player1.turn = false
+            player2.turn = false
             return
         }
         if(cross2.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
             display.winner(player1)
+            player1.turn = false
+            player2.turn = false
             return
         }
 
         // winning coditons for player 2
         if(rowA.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
             display.winner(player2)
-            console.log(player2);
+            player1.turn = false
+            player2.turn = false
             return
         }
         if(rowB.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
             display.winner(player2)
+            player1.turn = false
+            player2.turn = false
             return
         }
         if(rowC.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
             display.winner(player2)
+            player1.turn = false
+            player2.turn = false
             return
         }
         if(col1.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
             display.winner(player2)
+            player1.turn = false
+            player2.turn = false
             return
         }
         if(col2.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
             display.winner(player2)
+            player1.turn = false
+            player2.turn = false
             return
         }
         if(col3.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
             display.winner(player2)
+            player1.turn = false
+            player2.turn = false
             return
         }
         if(cross1.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
             display.winner(player2)
+            player1.turn = false
+            player2.turn = false
             return
         }
         if(cross2.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
             display.winner(player2)
+            player1.turn = false
+            player2.turn = false
             return
         }
     }
