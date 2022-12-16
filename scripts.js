@@ -83,9 +83,8 @@ const display = (() => {
     displayText.className = 'displayText'
     gameBoard.main.insertBefore(displayText, gameBoard.board)
 
-    const player1Turn = () => {
-        displayText.textContent = `Player 1's turn.`
-    }
+    const player1Turn = () => displayText.textContent = `Player 1's turn.`
+    
 
     const player2Turn = () => {
         displayText.textContent = `Player 2's turn.`
@@ -97,21 +96,10 @@ const display = (() => {
     } 
 
     const winner = (player) => {
-        console.log('Winner');
-        
-        if(player === player1) {
-            console.log(player1);
-            console.log('Player 1 wins!');
-            displayText.textContent = 'Player 1 Wins!'
-            // player1.turn = false
-        } else if (player === player2) {
-            console.log(player2);
-            console.log('Player 2 wins');
-            displayText.textContent = 'Player 2 Wins!'
-            // player2.turn = false
-
-        }
+        if(player === player1) return displayText.textContent = 'Player 1 Wins!'
+        if (player === player2) return displayText.textContent = 'Player 2 Wins!'
     }
+
     return { getMark, winner, displayText, player1Turn, player2Turn }
 })()
 
@@ -145,11 +133,6 @@ const winningConditions = (() => {
 
     const cross1 = [gameBoard.boardBoxes[0], gameBoard.boardBoxes[4],gameBoard.boardBoxes[8]]
     const cross2 = [gameBoard.boardBoxes[2], gameBoard.boardBoxes[4],gameBoard.boardBoxes[6]]
-
-    function disablePlayerTurn() {
-        player1.turn = false
-        player2.turn = false
-    }
 
     const isWinner = () => {
         // winnig condition for player 1
@@ -205,6 +188,11 @@ const winningConditions = (() => {
             disablePlayerTurn()
             return display.winner(player2)
         }
+    }
+
+    const disablePlayerTurn = () => {
+        player1.turn = false
+        player2.turn = false
     }
 
     return {player1Index, player2Index}
