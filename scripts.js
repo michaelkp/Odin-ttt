@@ -42,53 +42,37 @@ const gamePlay = (() => {
             if(box.classList.contains('played')) {
                 return
             } else {
-                console.log(box.id);
                 box.classList.add('played')
                 display.getMark(box)
                 _togglePlayerTurn()
                 winningConditions.player1Index(box)
                 winningConditions.player2Index(box)
-
             }       
         })     
     }
 
     const _togglePlayerTurn = () => {
         if(player1.turn === true) {
-            console.log('Player 1');
             player1.turn = !player1.turn
             player2.turn = !player2.turn
-            display.player2Turn()
-
-            return
-        }
-        if(player2.turn === true) {
-            console.log('Player 2');
+            return display.player2Turn()
+        } else if(player2.turn === true) {
             player1.turn = !player1.turn
             player2.turn = !player2.turn
-            display.player1Turn()
-
-            return 
+            return display.player1Turn()
         }
     }
-
-// then find position of marks and see if it matches win condiitons
-    
     return {  }
 })()
 
 const display = (() => {
 
     const displayText = document.createElement('div')
-    displayText.className = 'displayText'
+          displayText.className = 'displayText'
     gameBoard.main.insertBefore(displayText, gameBoard.board)
 
     const player1Turn = () => displayText.textContent = `Player 1's turn.`
-    
-
-    const player2Turn = () => {
-        displayText.textContent = `Player 2's turn.`
-    }
+    const player2Turn = () => displayText.textContent = `Player 2's turn.`
 
     const getMark = (box) => {
         if(player1.turn === true) return box.textContent = player1.mark
@@ -96,6 +80,7 @@ const display = (() => {
     } 
 
     const winner = (player) => {
+        if(player === undefined) return displayText.textContent = 'Tied game!'
         if(player === player1) return displayText.textContent = 'Player 1 Wins!'
         if (player === player2) return displayText.textContent = 'Player 2 Wins!'
     }
@@ -188,6 +173,8 @@ const winningConditions = (() => {
             disablePlayerTurn()
             return display.winner(player2)
         }
+
+        if(gameBoard.boardBoxes.every((box) => box.classList.contains('played'))) return display.winner()
     }
 
     const disablePlayerTurn = () => {
