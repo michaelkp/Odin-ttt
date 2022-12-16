@@ -146,106 +146,64 @@ const winningConditions = (() => {
     const cross1 = [gameBoard.boardBoxes[0], gameBoard.boardBoxes[4],gameBoard.boardBoxes[8]]
     const cross2 = [gameBoard.boardBoxes[2], gameBoard.boardBoxes[4],gameBoard.boardBoxes[6]]
 
-    const isWinner = (box) => {
-        // let  = player1.mark
+    function disablePlayerTurn() {
+        player1.turn = false
+        player2.turn = false
+    }
+
+    const isWinner = () => {
         // winnig condition for player 1
         if(rowA.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
-            display.winner(player1)
-            player1.turn = false
-            player2.turn = false
-            return
-        }
-        if(rowB.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
-            display.winner(player1)
-            player1.turn = false
-            player2.turn = false
-            return
-        }
-        if(rowC.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
-            display.winner(player1)
-            player1.turn = false
-            player2.turn = false
-            return
-        }
-        if(col1.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
-            display.winner(player1)
-            player1.turn = false
-            player2.turn = false
-            return
-        }
-        if(col2.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
-            display.winner(player1)
-            player1.turn = false
-            player2.turn = false
-            return
-        }
-        if(col3.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
-            display.winner(player1)
-            player1.turn = false
-            player2.turn = false
-            return
-        }
-        if(cross1.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
-            display.winner(player1)
-            player1.turn = false
-            player2.turn = false
-            return
-        }
-        if(cross2.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
-            display.winner(player1)
-            player1.turn = false
-            player2.turn = false
-            return
+            disablePlayerTurn()
+            return display.winner(player1)
+        } else if(rowB.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
+            disablePlayerTurn()
+            return display.winner(player1)
+        } else if(rowC.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
+            disablePlayerTurn()
+            return display.winner(player1)
+        } else if(col1.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
+            disablePlayerTurn()
+            return display.winner(player1)
+        } else if(col2.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
+            disablePlayerTurn()
+            return display.winner(player1)
+        } else if(col3.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
+            disablePlayerTurn()
+            return display.winner(player1)
+        } else if(cross1.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
+            disablePlayerTurn()
+            return display.winner(player1)
+        } else if(cross2.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
+            disablePlayerTurn()
+            return display.winner(player1)
         }
 
         // winning coditons for player 2
         if(rowA.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
-            display.winner(player2)
-            player1.turn = false
-            player2.turn = false
-            return
-        }
-        if(rowB.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
-            display.winner(player2)
-            player1.turn = false
-            player2.turn = false
-            return
-        }
-        if(rowC.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
-            display.winner(player2)
-            player1.turn = false
-            player2.turn = false
-            return
-        }
-        if(col1.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
-            display.winner(player2)
-            player1.turn = false
-            player2.turn = false
-            return
-        }
-        if(col2.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
-            display.winner(player2)
-            player1.turn = false
-            player2.turn = false
-            return
-        }
-        if(col3.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
-            display.winner(player2)
-            player1.turn = false
-            player2.turn = false
-            return
-        }
-        if(cross1.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
-            display.winner(player2)
-            player1.turn = false
-            player2.turn = false
-            return
-        }
-        if(cross2.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
-            display.winner(player2)
-            player1.turn = false
-            player2.turn = false
-            return
+            disablePlayerTurn()
+            return display.winner(player2)
+        } else if(rowB.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
+            disablePlayerTurn()
+            return display.winner(player2)
+        } else if(rowC.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
+            disablePlayerTurn()
+            return display.winner(player2)
+        } else if(col1.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
+            disablePlayerTurn()
+            return display.winner(player2)
+        } else if(col2.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
+            disablePlayerTurn()
+            return display.winner(player2)
+        } else if(col3.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
+            disablePlayerTurn()
+            return display.winner(player2)
+        } else if(cross1.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
+            disablePlayerTurn()
+            return display.winner(player2)
+        } else if(cross2.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
+            disablePlayerTurn()
+            return display.winner(player2)
         }
     }
 
