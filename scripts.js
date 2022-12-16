@@ -18,7 +18,6 @@ const gameBoard = (() => {
             boardBoxes.push(box)       
     }}
 
-
     return {boardBoxes, makeBoxes, box, main, board}
 })()
 
@@ -31,8 +30,52 @@ const players = (name, mark, turn, score) => {
     return {name, mark, turn, score}
 }
 
-const player1 = players('One', 'X', true)
-const player2 = players('Two', 'O', false)
+const getNameDialog = (() => {
+    const nameBtn = document.createElement('button')
+        nameBtn.textContent = 'Player Name'
+        nameBtn.addEventListener('pointerup', () => {
+            gameBoard.main.appendChild(dialog)
+            dialog.showModal(dialog)
+        })
+    const dialog = document.createElement('dialog')
+        dialog.id  = 'playerNameDialog'
+        const nameForm = document.createElement('form')
+            dialog.appendChild(nameForm)
+            nameForm.textContent = `Player's name: `
+            nameForm.setAttribute('method', 'dialog')
+            nameForm.setAttribute('label', 'playerName') 
+
+        const nameInput = document.createElement('input')
+        nameInput.setAttribute('type', 'text')
+        nameInput.setAttribute('name', 'playerName')
+        nameInput.setAttribute('placeholder', 'Name')
+        nameForm.appendChild(nameInput)
+
+        const cancelDialogBtn = document.createElement('button')
+            cancelDialogBtn.textContent = 'Cancel'
+            cancelDialogBtn.addEventListener('pointerup', () => {
+                nameForm.reset()
+                gameBoard.main.removeChild(dialog)
+                dialog.close(dialog)
+            })
+        const saveDialogBtn = document.createElement('button')
+            saveDialogBtn.textContent = 'Save'
+            saveDialogBtn.addEventListener('pointerup', () => {
+                console.log(player1.name + ' --name test');
+                player1.name = nameInput.value
+                console.log(nameInput.value);
+                console.log(player1.name + ' --player1 name test');
+// ADD DISPLAY NAME AND PLAYER 2 NAME!!!!!!!!!!
+                gameBoard.main.removeChild(dialog)
+                dialog.close(dialog)
+            })
+        dialog.appendChild(cancelDialogBtn)
+        dialog.appendChild(saveDialogBtn)
+    return { nameBtn, nameInput}
+})()
+
+const player1 = players(getNameDialog.nameInput.value, 'X', true)
+const player2 = players(getNameDialog.nameInput.value, 'O', false)
 
 const gamePlay = (() => {
     gameBoard.makeBoxes()
@@ -67,12 +110,35 @@ const gamePlay = (() => {
 
 const display = (() => {
 
-    const displayText = document.createElement('div')
-          displayText.className = 'displayText'
-    gameBoard.main.insertBefore(displayText, gameBoard.board)
+    const displayPlayers = document.createElement('div')
+          displayPlayers.className = 'displayPlayers'
+          displayPlayers.textContent = 'Player 1: '
+          displayPlayers.appendChild(getNameDialog.nameBtn)
 
-    const player1Turn = () => displayText.textContent = `Player 1's turn.`
-    const player2Turn = () => displayText.textContent = `Player 2's turn.`
+          const displayText = document.createElement('div')
+          displayText.className = 'displayText'
+
+    gameBoard.main.insertBefore(displayText, gameBoard.board)
+    gameBoard.main.insertBefore(displayPlayers, displayText)
+
+    const player1Turn = () => {
+        if(player1.name === ''){
+            player1.name = 'Player 1'
+            displayText.textContent = `${player1.name}'s turn.`
+            return player1.name
+        } else {
+            displayText.textContent = `${player1.name}'s turn.`
+        }
+    }
+    const player2Turn = () => {
+        if(player2.name === ''){
+            player2.name = 'Player 2'
+            displayText.textContent = `${player2.name}'s turn.`
+            return player2.name
+        } else {
+            displayText.textContent = `${player2.name}'s turn.`
+        }
+    }
 
     const getMark = (box) => {
         if(player1.turn === true) return box.textContent = player1.mark
@@ -81,8 +147,8 @@ const display = (() => {
 
     const winner = (player) => {
         if(player === undefined) return displayText.textContent = 'Tied game!'
-        if(player === player1) return displayText.textContent = 'Player 1 Wins!'
-        if (player === player2) return displayText.textContent = 'Player 2 Wins!'
+        if(player === player1) return displayText.textContent = `${player1.name} Wins!`
+        if (player === player2) return displayText.textContent = `${player2.name} Wins!`
     }
 
     return { getMark, winner, displayText, player1Turn, player2Turn }
