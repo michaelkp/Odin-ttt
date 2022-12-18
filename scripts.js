@@ -129,7 +129,6 @@ const gamePlay = (() => {
             display.display_playersTurn.textContent = `${player_2.name}'s turn.`
         }
     }
-    let playingComputer = false
     const computerTurn = () => {
         console.log('comp test');
         // computer.turn = false
@@ -137,6 +136,10 @@ const gamePlay = (() => {
         display.display_playersTurn.textContent = `Computer's turn.`
     }
 
+    let playingComputer = false
+    const startComputer = () => {
+        return playingComputer = true
+    }
     const togglePlayerTurn = () => {
         if(player_1.turn === true) {
             player_1.turn = !player_1.turn
@@ -160,7 +163,7 @@ const gamePlay = (() => {
             return player_1Turn()
         }
     }
-    return { computerTurn, togglePlayerTurn }
+    return { player_1Turn, togglePlayerTurn, startComputer }
 })()
 
 const display = (() => {
@@ -180,7 +183,7 @@ const display = (() => {
         display_playComputerBtn.addEventListener('pointerup', () => {
             console.log('comp btn test');
             console.log(computer.turn);
-            gamePlay.computerTurn()
+            gamePlay.startComputer()
         })
         display_players.appendChild(display_playComputer)
         display_players.appendChild(display_playComputerBtn)
