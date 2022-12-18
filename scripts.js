@@ -227,6 +227,8 @@ const display = (() => {
     const playAgainBtn = document.createElement('button')
         playAgainBtn.addEventListener('pointerup', () => {
             gamePlay.startOver()
+            gameBoard.main.removeChild(playAgain)
+
         })
         playAgainBtn.textContent = 'Start Over'
         playAgain.appendChild(playAgainText)
