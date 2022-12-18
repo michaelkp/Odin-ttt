@@ -31,14 +31,41 @@ const players = (name, mark, turn, score) => {
 }
 
 const getNameDialog = (() => {
-    const nameBtn = document.createElement('button')
-        nameBtn.textContent = 'Player Name'
-        nameBtn.addEventListener('pointerup', () => {
-            gameBoard.main.appendChild(dialog)
-            dialog.showModal(dialog)
-        })
+    const body = document.querySelector('body')
+
+    const saveDialogBtn = document.createElement('button')
+            saveDialogBtn.textContent = 'Save'
+            saveDialogBtn.addEventListener('pointerup', () => {
+                if(saveDialogBtn.className === 'player1') {
+                    player_1.name = nameInput.value
+                    console.log('Player 1: ' + player_1.name);
+                } else if(saveDialogBtn.className === 'player2') {
+                    player_2.name = nameInput.value
+                    console.log('Player 2: ' + player_2.name);
+                }
+                nameForm.reset()
+                dialog.close(dialog)
+            })
+    const namePlayer_1Btn = document.createElement('button')
+            namePlayer_1Btn.textContent = 'Player 1 Name'
+            namePlayer_1Btn.className = 'player1Btn'
+
+            namePlayer_1Btn.addEventListener('pointerup', () => {
+                saveDialogBtn.className = 'player1'
+                dialog.showModal(dialog)
+            })
+    const namePlayer_2Btn = document.createElement('button')
+            namePlayer_2Btn.textContent = 'Player 2 Name'
+            namePlayer_2Btn.className = 'player2Btn'
+
+            namePlayer_2Btn.addEventListener('pointerup', () => {
+                saveDialogBtn.className = 'player2'
+
+                dialog.showModal(dialog)
+            })
     const dialog = document.createElement('dialog')
-        dialog.id  = 'playerNameDialog'
+            body.appendChild(dialog)
+            dialog.id  = 'playerNameDialog'
         const nameForm = document.createElement('form')
             dialog.appendChild(nameForm)
             nameForm.textContent = `Player's name: `
@@ -46,36 +73,26 @@ const getNameDialog = (() => {
             nameForm.setAttribute('label', 'playerName') 
 
         const nameInput = document.createElement('input')
-        nameInput.setAttribute('type', 'text')
-        nameInput.setAttribute('name', 'playerName')
-        nameInput.setAttribute('placeholder', 'Name')
-        nameForm.appendChild(nameInput)
+            nameInput.setAttribute('type', 'text')
+            nameInput.setAttribute('name', 'playerName')
+            nameInput.setAttribute('placeholder', 'Name')
+            nameForm.appendChild(nameInput)
 
         const cancelDialogBtn = document.createElement('button')
             cancelDialogBtn.textContent = 'Cancel'
             cancelDialogBtn.addEventListener('pointerup', () => {
                 nameForm.reset()
-                gameBoard.main.removeChild(dialog)
                 dialog.close(dialog)
             })
-        const saveDialogBtn = document.createElement('button')
-            saveDialogBtn.textContent = 'Save'
-            saveDialogBtn.addEventListener('pointerup', () => {
-                console.log(player1.name + ' --name test');
-                player1.name = nameInput.value
-                console.log(nameInput.value);
-                console.log(player1.name + ' --player1 name test');
-// ADD DISPLAY NAME AND PLAYER 2 NAME!!!!!!!!!!
-                gameBoard.main.removeChild(dialog)
-                dialog.close(dialog)
-            })
+        
         dialog.appendChild(cancelDialogBtn)
         dialog.appendChild(saveDialogBtn)
-    return { nameBtn, nameInput}
+    return { namePlayer_1Btn, namePlayer_2Btn, nameInput}
 })()
 
-const player1 = players(getNameDialog.nameInput.value, 'X', true)
-const player2 = players(getNameDialog.nameInput.value, 'O', false)
+const player_1 = players(getNameDialog.nameInput.value, 'X', true)
+const player_2 = players(getNameDialog.nameInput.value, 'O', false)
+const computer = players('Computer', player_2.mark, player_2.turn)
 
 const gamePlay = (() => {
     gameBoard.makeBoxes()
@@ -88,21 +105,21 @@ const gamePlay = (() => {
                 box.classList.add('played')
                 display.getMark(box)
                 _togglePlayerTurn()
-                winningConditions.player1Index(box)
-                winningConditions.player2Index(box)
+                winningConditions.player_1Index(box)
+                winningConditions.player_2Index(box)
             }       
         })     
     }
 
     const _togglePlayerTurn = () => {
-        if(player1.turn === true) {
-            player1.turn = !player1.turn
-            player2.turn = !player2.turn
-            return display.player2Turn()
-        } else if(player2.turn === true) {
-            player1.turn = !player1.turn
-            player2.turn = !player2.turn
-            return display.player1Turn()
+        if(player_1.turn === true) {
+            player_1.turn = !player_1.turn
+            player_2.turn = !player_2.turn
+            return display.player_2Turn()
+        } else if(player_2.turn === true) {
+            player_1.turn = !player_1.turn
+            player_2.turn = !player_2.turn
+            return display.player_1Turn()
         }
     }
     return {  }
@@ -111,66 +128,73 @@ const gamePlay = (() => {
 const display = (() => {
 
     const displayPlayers = document.createElement('div')
-          displayPlayers.className = 'displayPlayers'
-          displayPlayers.textContent = 'Player 1: '
-          displayPlayers.appendChild(getNameDialog.nameBtn)
+        displayPlayers.className = 'displayPlayers'
+        displayPlayers.textContent = `Add players names: `
+        displayPlayers.appendChild(getNameDialog.namePlayer_1Btn)
+        displayPlayers.appendChild(getNameDialog.namePlayer_2Btn)
 
-          const displayText = document.createElement('div')
-          displayText.className = 'displayText'
+    const displayPlayerTurn = document.createElement('div')
+        displayPlayerTurn.className = 'displayText'
 
-    gameBoard.main.insertBefore(displayText, gameBoard.board)
-    gameBoard.main.insertBefore(displayPlayers, displayText)
+    gameBoard.main.insertBefore(displayPlayerTurn, gameBoard.board)
+    gameBoard.main.insertBefore(displayPlayers, displayPlayerTurn)
 
-    const player1Turn = () => {
-        if(player1.name === ''){
-            player1.name = 'Player 1'
-            displayText.textContent = `${player1.name}'s turn.`
-            return player1.name
+    const player_1Turn = () => {
+        if(player_1.name === ''){
+            player_1.name = 'Player 1'
+            displayPlayerTurn.textContent = `${player_1.name}'s turn.`
+            return player_1.name
         } else {
-            displayText.textContent = `${player1.name}'s turn.`
+            displayPlayerTurn.textContent = `${player_1.name}'s turn.`
         }
     }
-    const player2Turn = () => {
-        if(player2.name === ''){
-            player2.name = 'Player 2'
-            displayText.textContent = `${player2.name}'s turn.`
-            return player2.name
+    const player_2Turn = () => {
+        if(player_2.name === ''){
+            player_2.name = 'Player 2'
+            displayPlayerTurn.textContent = `${player_2.name}'s turn.`
+            return player_2.name
         } else {
-            displayText.textContent = `${player2.name}'s turn.`
+            displayPlayerTurn.textContent = `${player_2.name}'s turn.`
         }
+    }
+
+    const computerTurn = () => {
+        displayPlayerTurn.textContent = `Computer's turn.`
     }
 
     const getMark = (box) => {
-        if(player1.turn === true) return box.textContent = player1.mark
-        if(player2.turn === true) return box.textContent = player2.mark
+        if(player_1.turn === true) return box.textContent = player_1.mark
+        if(player_2.turn === true) return box.textContent = player_2.mark
+        if(computer.turn === true) return box.textContent = computer.mark
     } 
 
     const winner = (player) => {
-        if(player === undefined) return displayText.textContent = 'Tied game!'
-        if(player === player1) return displayText.textContent = `${player1.name} Wins!`
-        if (player === player2) return displayText.textContent = `${player2.name} Wins!`
+        if(player === undefined) return displayPlayerTurn.textContent = 'Tied game!'
+        if(player === player_1) return displayPlayerTurn.textContent = `${player_1.name} Wins!`
+        if (player === player_2) return displayPlayerTurn.textContent = `${player_2.name} Wins!`
+        if (player === computer) return displayPlayerTurn.textContent = `Computer Wins!`
     }
 
-    return { getMark, winner, displayText, player1Turn, player2Turn }
+    return { getMark, winner, displayPlayerTurn, player_1Turn, player_2Turn }
 })()
 
 const winningConditions = (() => {
  
-    let player1Mark = player1.mark
-    let player2Mark = player2.mark
+    let player_1Mark = player_1.mark
+    let player_2Mark = player_2.mark
 
-    let winningBoxesPlayer1 = []
-    let winningBoxesPlayer2 = []
+    let winningBoxesplayer_1 = []
+    let winningBoxesplayer_2 = []
 
-    const player1Index = (box) => {
-        if(box.textContent === player1Mark){
-            winningBoxesPlayer1.push(box)
+    const player_1Index = (box) => {
+        if(box.textContent === player_1Mark){
+            winningBoxesplayer_1.push(box)
             isWinner(box)
         }
     }
-    const player2Index = (box) => {
-        if(box.textContent === player2Mark){
-            winningBoxesPlayer2.push(box)
+    const player_2Index = (box) => {
+        if(box.textContent === player_2Mark){
+            winningBoxesplayer_2.push(box)
             isWinner(box)
         }
     }
@@ -187,66 +211,66 @@ const winningConditions = (() => {
 
     const isWinner = () => {
         // winnig condition for player 1
-        if(rowA.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
+        if(rowA.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-            return display.winner(player1)
-        } else if(rowB.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
+            return display.winner(player_1)
+        } else if(rowB.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-            return display.winner(player1)
-        } else if(rowC.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
+            return display.winner(player_1)
+        } else if(rowC.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-            return display.winner(player1)
-        } else if(col1.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
+            return display.winner(player_1)
+        } else if(col1.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-            return display.winner(player1)
-        } else if(col2.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
+            return display.winner(player_1)
+        } else if(col2.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-            return display.winner(player1)
-        } else if(col3.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
+            return display.winner(player_1)
+        } else if(col3.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-            return display.winner(player1)
-        } else if(cross1.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
+            return display.winner(player_1)
+        } else if(cross1.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-            return display.winner(player1)
-        } else if(cross2.every((player1Mark) => winningBoxesPlayer1.includes(player1Mark))) {
+            return display.winner(player_1)
+        } else if(cross2.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-            return display.winner(player1)
+            return display.winner(player_1)
         }
 
         // winning coditons for player 2
-        if(rowA.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
+        if(rowA.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
             disablePlayerTurn()
-            return display.winner(player2)
-        } else if(rowB.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
+            return display.winner(player_2)
+        } else if(rowB.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
             disablePlayerTurn()
-            return display.winner(player2)
-        } else if(rowC.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
+            return display.winner(player_2)
+        } else if(rowC.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
             disablePlayerTurn()
-            return display.winner(player2)
-        } else if(col1.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
+            return display.winner(player_2)
+        } else if(col1.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
             disablePlayerTurn()
-            return display.winner(player2)
-        } else if(col2.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
+            return display.winner(player_2)
+        } else if(col2.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
             disablePlayerTurn()
-            return display.winner(player2)
-        } else if(col3.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
+            return display.winner(player_2)
+        } else if(col3.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
             disablePlayerTurn()
-            return display.winner(player2)
-        } else if(cross1.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
+            return display.winner(player_2)
+        } else if(cross1.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
             disablePlayerTurn()
-            return display.winner(player2)
-        } else if(cross2.every((player2Mark) => winningBoxesPlayer2.includes(player2Mark))) {
+            return display.winner(player_2)
+        } else if(cross2.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
             disablePlayerTurn()
-            return display.winner(player2)
+            return display.winner(player_2)
         }
 
         if(gameBoard.boardBoxes.every((box) => box.classList.contains('played'))) return display.winner()
     }
 
     const disablePlayerTurn = () => {
-        player1.turn = false
-        player2.turn = false
+        player_1.turn = false
+        player_2.turn = false
     }
 
-    return {player1Index, player2Index}
+    return {player_1Index, player_2Index}
 })()
