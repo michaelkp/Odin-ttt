@@ -38,10 +38,12 @@ const getNameDialog = (() => {
             saveDialogBtn.addEventListener('pointerup', () => {
                 if(saveDialogBtn.className === 'player1') {
                     player_1.name = nameInput.value
-                    console.log('Player 1: ' + player_1.name);
+                    display.display_players.appendChild(display.display_playerNames)
+                    display.display_playerNames.textContent = `Player 1: ${player_1.name}`
                 } else if(saveDialogBtn.className === 'player2') {
                     player_2.name = nameInput.value
-                    console.log('Player 2: ' + player_2.name);
+                    display.display_players.appendChild(display.display_playerNames)
+                    display.display_playerNames.textContent = `Player 1: ${player_1.name} Player 2: ${player_2.name}`
                 }
                 nameForm.reset()
                 dialog.close(dialog)
@@ -60,7 +62,6 @@ const getNameDialog = (() => {
 
             namePlayer_2Btn.addEventListener('pointerup', () => {
                 saveDialogBtn.className = 'player2'
-
                 dialog.showModal(dialog)
             })
     const dialog = document.createElement('dialog')
@@ -92,7 +93,7 @@ const getNameDialog = (() => {
 
 const player_1 = players(getNameDialog.nameInput.value, 'X', true)
 const player_2 = players(getNameDialog.nameInput.value, 'O', false)
-const computer = players('Computer', player_2.mark, player_2.turn)
+const computer = players('Computer', 'O', false)
 
 const gamePlay = (() => {
     gameBoard.makeBoxes()
@@ -104,63 +105,94 @@ const gamePlay = (() => {
             } else {
                 box.classList.add('played')
                 display.getMark(box)
-                _togglePlayerTurn()
+                togglePlayerTurn()
                 winningConditions.player_1Index(box)
                 winningConditions.player_2Index(box)
             }       
         })     
     }
-
-    const _togglePlayerTurn = () => {
-        if(player_1.turn === true) {
-            player_1.turn = !player_1.turn
-            player_2.turn = !player_2.turn
-            return display.player_2Turn()
-        } else if(player_2.turn === true) {
-            player_1.turn = !player_1.turn
-            player_2.turn = !player_2.turn
-            return display.player_1Turn()
-        }
-    }
-    return {  }
-})()
-
-const display = (() => {
-
-    const displayPlayers = document.createElement('div')
-        displayPlayers.className = 'displayPlayers'
-        displayPlayers.textContent = `Add players names: `
-        displayPlayers.appendChild(getNameDialog.namePlayer_1Btn)
-        displayPlayers.appendChild(getNameDialog.namePlayer_2Btn)
-
-    const displayPlayerTurn = document.createElement('div')
-        displayPlayerTurn.className = 'displayText'
-
-    gameBoard.main.insertBefore(displayPlayerTurn, gameBoard.board)
-    gameBoard.main.insertBefore(displayPlayers, displayPlayerTurn)
-
     const player_1Turn = () => {
         if(player_1.name === ''){
             player_1.name = 'Player 1'
-            displayPlayerTurn.textContent = `${player_1.name}'s turn.`
+            display.display_playersTurn.textContent = `${player_1.name}'s turn.`
             return player_1.name
         } else {
-            displayPlayerTurn.textContent = `${player_1.name}'s turn.`
+            display.display_playersTurn.textContent = `${player_1.name}'s turn.`
         }
     }
     const player_2Turn = () => {
         if(player_2.name === ''){
             player_2.name = 'Player 2'
-            displayPlayerTurn.textContent = `${player_2.name}'s turn.`
+            display.display_playersTurn.textContent = `${player_2.name}'s turn.`
             return player_2.name
         } else {
-            displayPlayerTurn.textContent = `${player_2.name}'s turn.`
+            display.display_playersTurn.textContent = `${player_2.name}'s turn.`
         }
     }
-
+    let playingComputer = false
     const computerTurn = () => {
-        displayPlayerTurn.textContent = `Computer's turn.`
+        console.log('comp test');
+        // computer.turn = false
+        playingComputer = true
+        display.display_playersTurn.textContent = `Computer's turn.`
     }
+
+    const togglePlayerTurn = () => {
+        if(player_1.turn === true) {
+            player_1.turn = !player_1.turn
+            if(playingComputer === true) {
+                console.log(playingComputer + ' --toggle');
+                computer.turn = !computer.turn
+                return computerTurn()
+            } else {
+                console.log(playingComputer + ' --toggle');
+                player_2.turn = !player_2.turn
+                return player_2Turn()
+            }
+            
+        } else if(player_2.turn === true) {
+            player_1.turn = !player_1.turn
+            player_2.turn = !player_2.turn
+            return player_1Turn()
+        } else if(computer.turn === true) {
+            player_1.turn = !player_1.turn
+            computer.turn = !computer.turn
+            return player_1Turn()
+        }
+    }
+    return { computerTurn, togglePlayerTurn }
+})()
+
+const display = (() => {
+
+    const display_players = document.createElement('div')
+        display_players.className = 'display_players'
+    const display_addPlayerNames = document.createElement('p')
+        display_addPlayerNames.textContent = `Add players names: `
+        display_players.appendChild(display_addPlayerNames)
+        display_addPlayerNames.appendChild(getNameDialog.namePlayer_1Btn)
+        display_addPlayerNames.appendChild(getNameDialog.namePlayer_2Btn)
+    const display_playComputer = document.createElement('p')
+        display_playComputer.textContent = `Or play against the computer: `
+    const display_playComputerBtn = document.createElement('button')
+        display_playComputerBtn.textContent = 'Play Computer'
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        display_playComputerBtn.addEventListener('pointerup', () => {
+            console.log('comp btn test');
+            console.log(computer.turn);
+            gamePlay.computerTurn()
+        })
+        display_players.appendChild(display_playComputer)
+        display_players.appendChild(display_playComputerBtn)
+
+    const display_playerNames = document.createElement('p')
+        
+    
+    const display_playersTurn = document.createElement('div')
+        display_playersTurn.className = 'displayText'
+
+    gameBoard.main.insertBefore(display_playersTurn, gameBoard.board)
+    gameBoard.main.insertBefore(display_players, display_playersTurn)
 
     const getMark = (box) => {
         if(player_1.turn === true) return box.textContent = player_1.mark
@@ -169,13 +201,13 @@ const display = (() => {
     } 
 
     const winner = (player) => {
-        if(player === undefined) return displayPlayerTurn.textContent = 'Tied game!'
-        if(player === player_1) return displayPlayerTurn.textContent = `${player_1.name} Wins!`
-        if (player === player_2) return displayPlayerTurn.textContent = `${player_2.name} Wins!`
-        if (player === computer) return displayPlayerTurn.textContent = `Computer Wins!`
+        if(player === undefined) return display_playersTurn.textContent = 'Tied game!'
+        if(player === player_1) return display_playersTurn.textContent = `${player_1.name} Wins!`
+        if (player === player_2) return display_playersTurn.textContent = `${player_2.name} Wins!`
+        if (player === computer) return display_playersTurn.textContent = `Computer Wins!`
     }
 
-    return { getMark, winner, displayPlayerTurn, player_1Turn, player_2Turn }
+    return { getMark, winner, display_players, display_playerNames, display_playersTurn, display_playComputerBtn}
 })()
 
 const winningConditions = (() => {
