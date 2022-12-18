@@ -105,9 +105,11 @@ const gamePlay = (() => {
             } else {
                 box.classList.add('played')
                 display.getMark(box)
+                display.addPlayerClass(box)
                 togglePlayerTurn()
                 winningConditions.player_1Index(box)
                 winningConditions.player_2Index(box)
+                winningConditions.computerIndex(box)
             }       
         })     
     }
@@ -202,34 +204,55 @@ const display = (() => {
         if(player_2.turn === true) return box.textContent = player_2.mark
         if(computer.turn === true) return box.textContent = computer.mark
     } 
-
+    const addPlayerClass = (box) => {
+        if(player_1.turn === true) return box.classList.add('player1')
+        if(player_2.turn === true) return box.classList.add('player2')
+        if(computer.turn === true) return box.classList.add('computer')
+    }
     const winner = (player) => {
         if(player === undefined) return display_playersTurn.textContent = 'Tied game!'
-        if(player === player_1) return display_playersTurn.textContent = `${player_1.name} Wins!`
-        if (player === player_2) return display_playersTurn.textContent = `${player_2.name} Wins!`
-        if (player === computer) return display_playersTurn.textContent = `Computer Wins!`
+        if(player === player_1) {
+            console.log('player 1 win test');
+            return display_playersTurn.textContent = `${player_1.name} Wins!`}
+        if (player === player_2){
+            console.log('player 2 win test');
+             return display_playersTurn.textContent = `${player_2.name} Wins!`}
+        if (player === computer) {
+            console.log('computer win test');
+            return display_playersTurn.textContent = `Computer Wins!`}
     }
 
-    return { getMark, winner, display_players, display_playerNames, display_playersTurn, display_playComputerBtn}
+    return { getMark, addPlayerClass, winner, display_players, display_playerNames, display_playersTurn, display_playComputerBtn}
 })()
 
 const winningConditions = (() => {
  
     let player_1Mark = player_1.mark
     let player_2Mark = player_2.mark
+    let computer_mark = computer.mark
 
     let winningBoxesplayer_1 = []
     let winningBoxesplayer_2 = []
+    let winningBoxesComputer = []
 
     const player_1Index = (box) => {
-        if(box.textContent === player_1Mark){
+        if(box.classList.contains('player1')){
             winningBoxesplayer_1.push(box)
             isWinner(box)
         }
     }
     const player_2Index = (box) => {
-        if(box.textContent === player_2Mark){
+        if(box.classList.contains('player2')){
+            console.log('player 2 index');
             winningBoxesplayer_2.push(box)
+            isWinner(box)
+        }
+    }
+    const computerIndex = (box) => {
+        console.log(box.textContent + ' --compIndex');
+        if(box.classList.contains('computer')){
+            console.log('computer index');
+            winningBoxesComputer.push(box)
             isWinner(box)
         }
     }
@@ -277,6 +300,8 @@ const winningConditions = (() => {
             disablePlayerTurn()
             return display.winner(player_2)
         } else if(rowB.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
+            console.log('winner player 2');
+
             disablePlayerTurn()
             return display.winner(player_2)
         } else if(rowC.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
@@ -298,6 +323,33 @@ const winningConditions = (() => {
             disablePlayerTurn()
             return display.winner(player_2)
         }
+        // winning conditions for computer 
+        if(rowA.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
+            disablePlayerTurn()
+            return display.winner(computer)
+        } else if(rowB.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
+            console.log('winner computer');
+            disablePlayerTurn()
+            return display.winner(computer)
+        } else if(rowC.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
+            disablePlayerTurn()
+            return display.winner(computer)
+        } else if(col1.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
+            disablePlayerTurn()
+            return display.winner(computer)
+        } else if(col2.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
+            disablePlayerTurn()
+            return display.winner(computer)
+        } else if(col3.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
+            disablePlayerTurn()
+            return display.winner(computer)
+        } else if(cross1.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
+            disablePlayerTurn()
+            return display.winner(computer)
+        } else if(cross2.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
+            disablePlayerTurn()
+            return display.winner(computer)
+        }
 
         if(gameBoard.boardBoxes.every((box) => box.classList.contains('played'))) return display.winner()
     }
@@ -305,7 +357,8 @@ const winningConditions = (() => {
     const disablePlayerTurn = () => {
         player_1.turn = false
         player_2.turn = false
+        computer.turn = false
     }
 
-    return {player_1Index, player_2Index}
+    return {player_1Index, player_2Index, computerIndex}
 })()
