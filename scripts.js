@@ -224,11 +224,11 @@ const gamePlay = (() => {
             player_1Turn()
         }resetPlayerTurns()
     }
-    let gameOver = false
-    const getGameOver = () => {
-        return gameOver = true
-    }
-    return { player_1Turn, togglePlayerTurn, startComputer, startOver, getGameOver, getScore }
+    // let gameOver = false
+    // const getGameOver = () => {
+    //     return gameOver = true
+    // }
+    return { player_1Turn, togglePlayerTurn, startComputer, startOver, getScore }
 })()
 
 const display = (() => {
@@ -250,6 +250,9 @@ const display = (() => {
         })
         display_players.appendChild(display_playComputer)
         display_players.appendChild(display_playComputerBtn)
+
+    const scoreText = document.createElement('span')
+        display_players.appendChild(scoreText)
 
     const display_playerNames = document.createElement('p')
         
@@ -309,8 +312,6 @@ const display = (() => {
 
     const displayScore = () => {
         console.log('DISPLAY SCORE TEST');
-        const scoreText = document.createElement('span')
-        display_players.appendChild(scoreText)
         scoreText.textContent = `${player_1.name}: ${player_1.score}
                                  ${player_2.name || computer.name}: ${player_2.score || computer.score}`
     }
