@@ -106,9 +106,9 @@ const gamePlay = (() => {
                 box.classList.add('played')
                 display.getMark(box)
                 display.addPlayerClass(box)
-                togglePlayerTurn()
                 winningConditions.player_1Index(box)
                 winningConditions.player_2Index(box)
+                togglePlayerTurn()
             }       
         })     
     }
@@ -122,6 +122,7 @@ const gamePlay = (() => {
         } else {
             display.display_playersTurn.textContent = `${player_1.name}'s turn.`
         }
+        
     }
     const player_2Turn = () => {
         if(player_2.name === ''){
@@ -135,27 +136,21 @@ const gamePlay = (() => {
     }
     const computerTurn = () => {
         display.display_playersTurn.textContent = `Computer's turn.`
-        console.log(gameBoard.boardBoxes );
-        
         let unplayedBox = gameBoard.boardBoxes.filter(box => !box.classList.contains('played'))
-        console.log('+++++++++++');
-        let randomBox = Math.floor(Math.random() * unplayedBox.length)
-        console.log(randomBox + ' -- randomBox box');
-        console.log(unplayedBox[randomBox] + ' -- random played box');
-        console.log(unplayedBox.length + ' -- played box length');
 
         if(unplayedBox.length === 0) {
-            console.log('game over');
             return
-        }
-        unplayedBox[randomBox].classList.add('played')
-        unplayedBox[randomBox].classList.add('computer')
-        unplayedBox[randomBox].textContent = computer.mark
-        togglePlayerTurn()
-        winningConditions.computerIndex(unplayedBox[randomBox])
+        } else {
+            setTimeout(() => {
+                let randomBox = Math.floor(Math.random() * unplayedBox.length)
 
-        console.log(box + ' --box');
-        
+                unplayedBox[randomBox].classList.add('played', 'computer')
+                unplayedBox[randomBox].textContent = computer.mark
+                
+                winningConditions.computerIndex(unplayedBox[randomBox])
+                togglePlayerTurn()
+                }, 600);
+        }
     }
 
     let playingComputer = false
@@ -211,7 +206,11 @@ const gamePlay = (() => {
             player_1Turn()
         }resetPlayerTurns()
     }
-    return { player_1Turn, togglePlayerTurn, startComputer, startOver }
+    let gameOver = false
+    const getGameOver = () => {
+        return gameOver = true
+    }
+    return { player_1Turn, togglePlayerTurn, startComputer, startOver, getGameOver }
 })()
 
 const display = (() => {
@@ -331,6 +330,7 @@ const winningConditions = (() => {
             return display.winner(player_1)
         } else if(rowB.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
+
             return display.winner(player_1)
         } else if(rowC.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
@@ -412,6 +412,7 @@ const winningConditions = (() => {
     }
 
     const disablePlayerTurn = () => {
+        console.log('game over!!!!!');
         player_1.turn = false
         player_2.turn = false
         computer.turn = false
