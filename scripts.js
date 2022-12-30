@@ -91,9 +91,9 @@ const getNameDialog = (() => {
     return { namePlayer_1Btn, namePlayer_2Btn, nameInput}
 })()
 
-const player_1 = players(getNameDialog.nameInput.value, 'X', true)
-const player_2 = players(getNameDialog.nameInput.value, 'O', false)
-const computer = players('Computer', 'O', false)
+const player_1 = players(getNameDialog.nameInput.value, 'X', true, 0)
+const player_2 = players(getNameDialog.nameInput.value, 'O', false, 0)
+const computer = players('Computer', 'O', false, 0)
 
 const gamePlay = (() => {
     gameBoard.makeBoxes()
@@ -179,6 +179,24 @@ const gamePlay = (() => {
         } 
     }
 
+    const getScore = (player) => {
+        if(player === player_1) {
+            console.log('score test-- player 1');
+            player_1.score++
+            console.log(player_1.score + ' -- player 1 score');
+        }
+        if(player === player_2) {
+            console.log('score test-- player 2');
+            player_2.score++
+            console.log(player_2.score + ' -- player 2 score');
+        }
+        if(player === computer) {
+            console.log('score test-- computer 1');
+            computer.score++
+            console.log(computer.score + ' -- computer 1 score');
+        }
+    }
+
     const startOver = (box) => {
         function removeClasses() {
             for(const box of gameBoard.boardBoxes) {
@@ -210,7 +228,7 @@ const gamePlay = (() => {
     const getGameOver = () => {
         return gameOver = true
     }
-    return { player_1Turn, togglePlayerTurn, startComputer, startOver, getGameOver }
+    return { player_1Turn, togglePlayerTurn, startComputer, startOver, getGameOver, getScore }
 })()
 
 const display = (() => {
@@ -265,22 +283,25 @@ const display = (() => {
         if(player_2.turn === true) return box.classList.add('player2')
         if(computer.turn === true) return box.classList.add('computer')
     }
-    const winner = (player) => {
+    const getWinner = (player) => {
         gameBoard.main.insertBefore(playAgain, gameBoard.board)
 
         if(player === undefined) return display_playersTurn.textContent = 'Tied game!'
         if(player === player_1) {
             console.log('player 1 win test');
+            gamePlay.getScore(player_1)
             return display_playersTurn.textContent = `${player_1.name} Wins!`}
         if (player === player_2){
             console.log('player 2 win test');
-             return display_playersTurn.textContent = `${player_2.name} Wins!`}
+            gamePlay.getScore(player_2)
+            return display_playersTurn.textContent = `${player_2.name} Wins!`}
         if (player === computer) {
             console.log('computer win test');
+            gamePlay.getScore(computer)
             return display_playersTurn.textContent = `Computer Wins!`}
     }
 
-    return { getMark, addPlayerClass, winner, display_players, display_playerNames, display_playersTurn, display_playComputerBtn, playAgainBtn}
+    return { getMark, addPlayerClass, getWinner, display_players, display_playerNames, display_playersTurn, display_playComputerBtn, playAgainBtn}
 })()
 
 const winningConditions = (() => {
@@ -327,88 +348,88 @@ const winningConditions = (() => {
         // winning condition for player 1
         if(rowA.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-            return display.winner(player_1)
+            return display.getWinner(player_1)
         } else if(rowB.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
 
-            return display.winner(player_1)
+            return display.getWinner(player_1)
         } else if(rowC.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-            return display.winner(player_1)
+            return display.getWinner(player_1)
         } else if(col1.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-            return display.winner(player_1)
+            return display.getWinner(player_1)
         } else if(col2.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-            return display.winner(player_1)
+            return display.getWinner(player_1)
         } else if(col3.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-            return display.winner(player_1)
+            return display.getWinner(player_1)
         } else if(cross1.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-            return display.winner(player_1)
+            return display.getWinner(player_1)
         } else if(cross2.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-            return display.winner(player_1)
+            return display.getWinner(player_1)
         }
 
         // winning coditons for player 2
         if(rowA.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
             disablePlayerTurn()
-            return display.winner(player_2)
+            return display.getWinner(player_2)
         } else if(rowB.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
-            console.log('winner player 2');
+            console.log('getWinner player 2');
 
             disablePlayerTurn()
-            return display.winner(player_2)
+            return display.getWinner(player_2)
         } else if(rowC.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
             disablePlayerTurn()
-            return display.winner(player_2)
+            return display.getWinner(player_2)
         } else if(col1.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
             disablePlayerTurn()
-            return display.winner(player_2)
+            return display.getWinner(player_2)
         } else if(col2.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
             disablePlayerTurn()
-            return display.winner(player_2)
+            return display.getWinner(player_2)
         } else if(col3.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
             disablePlayerTurn()
-            return display.winner(player_2)
+            return display.getWinner(player_2)
         } else if(cross1.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
             disablePlayerTurn()
-            return display.winner(player_2)
+            return display.getWinner(player_2)
         } else if(cross2.every((player_2Mark) => winningBoxesplayer_2.includes(player_2Mark))) {
             disablePlayerTurn()
-            return display.winner(player_2)
+            return display.getWinner(player_2)
         }
         // winning conditions for computer 
         if(rowA.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
             disablePlayerTurn()
-            return display.winner(computer)
+            return display.getWinner(computer)
         } else if(rowB.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
-            console.log('winner computer');
+            console.log('getWinner computer');
             disablePlayerTurn()
-            return display.winner(computer)
+            return display.getWinner(computer)
         } else if(rowC.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
             disablePlayerTurn()
-            return display.winner(computer)
+            return display.getWinner(computer)
         } else if(col1.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
             disablePlayerTurn()
-            return display.winner(computer)
+            return display.getWinner(computer)
         } else if(col2.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
             disablePlayerTurn()
-            return display.winner(computer)
+            return display.getWinner(computer)
         } else if(col3.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
             disablePlayerTurn()
-            return display.winner(computer)
+            return display.getWinner(computer)
         } else if(cross1.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
             disablePlayerTurn()
-            return display.winner(computer)
+            return display.getWinner(computer)
         } else if(cross2.every((computer_mark) => winningBoxesComputer.includes(computer_mark))) {
             disablePlayerTurn()
-            return display.winner(computer)
+            return display.getWinner(computer)
         }
 
-        if(gameBoard.boardBoxes.every((box) => box.classList.contains('played'))) return display.winner()
+        if(gameBoard.boardBoxes.every((box) => box.classList.contains('played'))) return display.getWinner()
     }
 
     const disablePlayerTurn = () => {
