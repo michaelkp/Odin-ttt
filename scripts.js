@@ -23,7 +23,7 @@ const gameBoard = (() => {
 
 const players = (name, mark, turn, score) => {
     const getName = () => name
-    const getMark = () => mark
+    const addMark = () => mark
     const getTurn = () => turn
     const getScore = () => score
 
@@ -104,7 +104,7 @@ const gamePlay = (() => {
                 return
             } else {
                 box.classList.add('played')
-                display.getMark(box)
+                display.addMark(box)
                 display.addPlayerClass(box)
                 winningConditions.player_1Index(box)
                 winningConditions.player_2Index(box)
@@ -138,9 +138,9 @@ const gamePlay = (() => {
         display.display_playersTurn.textContent = `Computer's turn.`
         let unplayedBox = gameBoard.boardBoxes.filter(box => !box.classList.contains('played'))
 
-        if(unplayedBox.length === 0) {
-            return
-        } else {
+        // if(unplayedBox.length === 0) {
+        //     return
+        // } else {
             setTimeout(() => {
                 let randomBox = Math.floor(Math.random() * unplayedBox.length)
 
@@ -149,8 +149,9 @@ const gamePlay = (() => {
                 
                 winningConditions.computerIndex(unplayedBox[randomBox])
                 togglePlayerTurn()
+                console.log('TEST!!!!!');
                 }, 600);
-        }
+        // }
     }
 
     let playingComputer = false
@@ -204,7 +205,6 @@ const gamePlay = (() => {
                 box.classList.remove('player2')
                 box.classList.remove('computer')
                 box.classList.remove('played')
-                console.log(box.classList + ' -- box class');
             }
         }removeClasses()
 
@@ -273,15 +273,15 @@ const display = (() => {
     gameBoard.main.insertBefore(display_playersTurn, gameBoard.board)
     gameBoard.main.insertBefore(display_players, display_playersTurn)
 
-    const getMark = (box) => {
+    const addMark = (box) => {
         if(player_1.turn === true) return box.textContent = player_1.mark
         if(player_2.turn === true) return box.textContent = player_2.mark
-        if(computer.turn === true) return box.textContent = computer.mark
+        // if(computer.turn === true) return box.textContent = computer.mark
     } 
     const addPlayerClass = (box) => {
         if(player_1.turn === true) return box.classList.add('player1')
         if(player_2.turn === true) return box.classList.add('player2')
-        if(computer.turn === true) return box.classList.add('computer')
+        // if(computer.turn === true) return box.classList.add('computer')
     }
     const getWinner = (player) => {
         gameBoard.main.insertBefore(playAgain, gameBoard.board)
@@ -290,18 +290,31 @@ const display = (() => {
         if(player === player_1) {
             console.log('player 1 win test');
             gamePlay.getScore(player_1)
+            display.displayScore()
+
             return display_playersTurn.textContent = `${player_1.name} Wins!`}
         if (player === player_2){
             console.log('player 2 win test');
             gamePlay.getScore(player_2)
+            display.displayScore()
+
             return display_playersTurn.textContent = `${player_2.name} Wins!`}
         if (player === computer) {
             console.log('computer win test');
             gamePlay.getScore(computer)
+            display.displayScore()
+
             return display_playersTurn.textContent = `Computer Wins!`}
     }
 
-    return { getMark, addPlayerClass, getWinner, display_players, display_playerNames, display_playersTurn, display_playComputerBtn, playAgainBtn}
+    const displayScore = () => {
+        console.log('DISPLAY SCORE TEST');
+        const scoreText = document.createElement('span')
+        display_players.appendChild(scoreText)
+        scoreText.textContent = `${player_1.name}: ${player_1.score}
+                                 ${player_2.name || computer.name}: ${player_2.score || computer.score}`
+    }
+    return { addMark, addPlayerClass, getWinner, displayScore, display_players, display_playerNames, display_playersTurn, display_playComputerBtn, playAgainBtn}
 })()
 
 const winningConditions = (() => {
@@ -328,7 +341,6 @@ const winningConditions = (() => {
     }
     const computerIndex = (box) => {
         if(box.classList.contains('computer')){
-            console.log(gameBoard.boardBoxes.classList + ' -- winning cons classes');
             winningBoxesComputer.push(box)
             isWinner(box)
         }
@@ -351,7 +363,6 @@ const winningConditions = (() => {
             return display.getWinner(player_1)
         } else if(rowB.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
-
             return display.getWinner(player_1)
         } else if(rowC.every((player_1Mark) => winningBoxesplayer_1.includes(player_1Mark))) {
             disablePlayerTurn()
@@ -429,7 +440,10 @@ const winningConditions = (() => {
             return display.getWinner(computer)
         }
 
-        if(gameBoard.boardBoxes.every((box) => box.classList.contains('played'))) return display.getWinner()
+        if(gameBoard.boardBoxes.every((box) => box.classList.contains('played'))) {
+            disablePlayerTurn()
+            return display.getWinner(undefined)
+        }
     }
 
     const disablePlayerTurn = () => {
