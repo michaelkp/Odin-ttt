@@ -47,7 +47,9 @@ dialog form {
     color: white;
     font-size: 5rem;
 }
-
+.score {
+    color: white;
+}
 .playAgain {
     color: white;
 }

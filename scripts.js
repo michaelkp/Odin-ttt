@@ -206,24 +206,24 @@ const display = (() => {
 
     const display_players = document.createElement('div')
         display_players.className = 'display_players'
-    const display_addPlayerNames = document.createElement('p')
-        display_addPlayerNames.textContent = `Add players names: `
-        display_players.appendChild(display_addPlayerNames)
-        display_addPlayerNames.appendChild(getNameDialog.namePlayer_1Btn)
-        display_addPlayerNames.appendChild(getNameDialog.namePlayer_2Btn)
-    const display_playComputer = document.createElement('p')
-        display_playComputer.textContent = `Or play against the computer: `
-    const display_playComputerBtn = document.createElement('button')
-        display_playComputerBtn.textContent = 'Play Computer'
+    // const display_addPlayerNames = document.createElement('p')
+    //     display_addPlayerNames.textContent = `Add players names: `
+    //     display_players.appendChild(display_addPlayerNames)
+    //     display_addPlayerNames.appendChild(getNameDialog.namePlayer_1Btn)
+    //     display_addPlayerNames.appendChild(getNameDialog.namePlayer_2Btn)
+    // const display_playComputer = document.createElement('p')
+    //     display_playComputer.textContent = `Or play against the computer: `
+    const display_playComputerBtn = document.getElementById('playComputer')
+        // display_playComputerBtn.textContent = 'Play Computer'
         display_playComputerBtn.addEventListener('pointerup', () => {
             getNameDialog.namePlayer_2Btn.setAttribute('disabled', 'disabled')
             gamePlay.startComputer()
         })
-        display_players.appendChild(display_playComputer)
-        display_players.appendChild(display_playComputerBtn)
+        // display_players.appendChild(display_playComputer)
+        // display_players.appendChild(display_playComputerBtn)
 
-    const scoreText = document.createElement('span')
-        display_players.appendChild(scoreText)
+    // const scoreText = document.createElement('span')
+    //     display_players.appendChild(scoreText)
 
     const display_playerNames = document.createElement('p')
         
@@ -283,7 +283,8 @@ const display = (() => {
 
     const displayScore = () => {
         console.log('DISPLAY SCORE TEST');
-        scoreText.textContent = `${player_1.name}: ${player_1.score}
+        const display_score = document.getElementById('display_score')
+            display_score.textContent = `${player_1.name}: ${player_1.score}
                                  ${player_2.name || computer.name}: ${player_2.score || computer.score}`
     }
     return { addMark, addPlayerClass, getWinner, displayScore, display_players, display_playerNames, display_playersTurn, display_playComputerBtn, playAgainBtn}
