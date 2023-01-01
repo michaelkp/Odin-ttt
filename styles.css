@@ -5,23 +5,22 @@
 }
 
 body, html {
-    background-color: midnightblue;
+    background-color: #01012b;
     min-height: 100vh;
+    font-family: 'Dosis', sans-serif;
+    color: white;
 }
 
 .container {
-    min-width: 600px;
-    max-width: 800px;
+    width: auto;
     height: 100vh;
     margin: 0 auto;
-    border: 1px solid white;
     display: flex;
     justify-content: center;
 }
 
 main {
-    border: 1px solid white;
-    height: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -31,35 +30,77 @@ main {
 dialog {
     width: 50vw;
     height: 20vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: #01012b;
+    border: 2px solid transparent;
+    border-image-slice: 1;
+    border-image-source: radial-gradient(#ff1f8f 60%, #01012b);
+    box-shadow: 2px 2px 35px 1px white;
+    padding: 15px;
 }
 
 dialog form {
     display: flex;
     flex-direction: column;
+    font-size: 1.2rem;
+}
+
+dialog input {
+    line-height: 2.5rem;
+    font-size: 1.5rem;
+    padding-block: 5px;
+    padding-inline: 7px;
+    border-style: none;
+    outline: none;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+dialog::backdrop {
+    backdrop-filter: blur(2.5px);
+}
+
+dialog button {
+    width: 7rem;
+}
+
+.dialogBtns {
+    display: flex;
+    gap: 1rem;
 }
 
 .display_players {
-    color: white;
-    font-size: 2rem;
+    display: flex;
+    flex: 1;
+    font-size: 1.5rem;
+    margin-top: 15px;
+    line-height: 3rem;
 }
 
-.displayText {
-    color: white;
-    font-size: 5rem;
+.display_players button {
+    margin-left: 15px;
+}
+
+.turn {
+    font-size: 1.5rem;
 }
 .score {
-    color: white;
+    
 }
-.playAgain {
-    color: white;
+.play_again {
+    
 }
 .gameBoard {
-    border: 1px solid white;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    height: 600px;
-    width: 600px;
+    height: 80vh;
+    width: 80vw;
+    margin-block: 15px;
 }
 
 .boardBox {
@@ -67,11 +108,32 @@ dialog form {
     justify-content: center;
     align-items: center;
     text-align: center;
-    border: 1px solid white;
-    width: 1fr;
-    height: 1fr;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 10rem;
+    border: 2px solid transparent;
+    border-image-slice: 1;
+    border-image-source: radial-gradient(#ff1f8f 60%, #01012b);
+    font-family: 'Dosis', sans-serif;    
+    font-size: 7rem;
     font-weight: bolder;
+    cursor: pointer;
+}
+
+button {
+    background-color: white;
+    border-style: none;
+    border-radius: 5px;
+    padding-block: 5px;
+    padding-inline: 7px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+button:hover, button:focus {
+    background-color: #01012b;
+    outline: 2px solid #ff1f8f;
+    color: white;
+}
+
+button:active {
+    background-color: #ff1f8f;
+    color: white;
 }

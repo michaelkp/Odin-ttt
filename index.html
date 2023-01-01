@@ -7,7 +7,7 @@
 
     <script src="scripts.js" defer></script>
     <link rel="stylesheet" href="styles.css">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap" rel="stylesheet">
     <title>Tic-Tac-Toe</title>
 </head>
 <body>
@@ -22,7 +22,7 @@
                            placeholder="Please enter your name."
                            minlength="1">
                 </form>
-                <div>
+                <div class="dialogBtns">
                     <button type="reset" id="dialogCancel">Cancel</button>
                     <button type="submit" id="dialogSave">Save</button>
                 </div>
@@ -30,16 +30,27 @@
 
             <section class="display_players">
                 <span>
-                    <p>Player names: </p>
-                    <button type="submit" id="player1Btn">Player 1</button>
-                    <button type="submit" id="player2Btn">Player 2</button>
-                    <p>Or play the Computer:</p>
-                    <button type="submit" id="playComputer">Computer</button>
+                    <p>Add player names: 
+                        <button type="submit" id="player1Btn">Player 1</button>
+                        <button type="submit" id="player2Btn">Player 2</button>
+                    </p>
+                    
+                    <p>Or play the Computer: 
+                        <button type="submit" id="playComputer">Computer</button>
+                    </p>
+                    
                 </span>
+            </section>
+            <section class="names">
+                <p id="player_names"></p>
             </section>
             <section class="score"">
                 <p id="display_score"></p>
             </section>
+            <section class="turn">
+                <p id="players_turn"></p>
+            </section>
+            
         </main>
     </div>
 </body>

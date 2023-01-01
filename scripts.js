@@ -42,10 +42,14 @@ const getNameDialog = (() => {
                 player_1.name = nameInput.value
                 display.display_players.appendChild(display.display_playerNames)
                 display.display_playerNames.textContent = `Player 1: ${player_1.name}`
+                gamePlay.player_1Turn()
+
             } else if(saveBtn.className === 'player2') {
                 player_2.name = nameInput.value
                 display.display_players.appendChild(display.display_playerNames)
                 display.display_playerNames.textContent = `Player 1: ${player_1.name} Player 2: ${player_2.name}`
+                gamePlay.player_1Turn()
+
             }
             nameForm.reset()
             dialog.close()
@@ -215,7 +219,6 @@ const display = (() => {
 
     const display_playerNames = document.getElementById('player_names')
         
-    
     const display_playersTurn = document.getElementById('players_turn')
 
     const playAgain = document.createElement('div')
@@ -273,10 +276,6 @@ const display = (() => {
 })()
 
 const winningConditions = (() => {
- 
-    let player_1Mark = player_1.mark
-    let player_2Mark = player_2.mark
-    let computer_mark = computer.mark
 
     let winningBoxesplayer_1 = []
     let winningBoxesplayer_2 = []
