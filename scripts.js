@@ -206,33 +206,20 @@ const display = (() => {
 
     const display_players = document.createElement('div')
         display_players.className = 'display_players'
-    // const display_addPlayerNames = document.createElement('p')
-    //     display_addPlayerNames.textContent = `Add players names: `
-    //     display_players.appendChild(display_addPlayerNames)
-    //     display_addPlayerNames.appendChild(getNameDialog.namePlayer_1Btn)
-    //     display_addPlayerNames.appendChild(getNameDialog.namePlayer_2Btn)
-    // const display_playComputer = document.createElement('p')
-    //     display_playComputer.textContent = `Or play against the computer: `
+    
     const display_playComputerBtn = document.getElementById('playComputer')
-        // display_playComputerBtn.textContent = 'Play Computer'
         display_playComputerBtn.addEventListener('pointerup', () => {
             getNameDialog.namePlayer_2Btn.setAttribute('disabled', 'disabled')
             gamePlay.startComputer()
         })
-        // display_players.appendChild(display_playComputer)
-        // display_players.appendChild(display_playComputerBtn)
 
-    // const scoreText = document.createElement('span')
-    //     display_players.appendChild(scoreText)
-
-    const display_playerNames = document.createElement('p')
+    const display_playerNames = document.getElementById('player_names')
         
     
-    const display_playersTurn = document.createElement('div')
-        display_playersTurn.className = 'displayText'
+    const display_playersTurn = document.getElementById('players_turn')
 
     const playAgain = document.createElement('div')
-        playAgain.className = 'playAgain'
+        playAgain.className = 'play_again'
     const playAgainText = document.createElement('p')
         playAgainText.textContent = 'Play again?'
     const playAgainBtn = document.createElement('button')
@@ -244,18 +231,13 @@ const display = (() => {
         playAgain.appendChild(playAgainText)
         playAgain.appendChild(playAgainBtn)
 
-    gameBoard.main.insertBefore(display_playersTurn, gameBoard.board)
-    gameBoard.main.insertBefore(display_players, display_playersTurn)
-
     const addMark = (box) => {
         if(player_1.turn === true) return box.textContent = player_1.mark
         if(player_2.turn === true) return box.textContent = player_2.mark
-        // if(computer.turn === true) return box.textContent = computer.mark
     } 
     const addPlayerClass = (box) => {
         if(player_1.turn === true) return box.classList.add('player1')
         if(player_2.turn === true) return box.classList.add('player2')
-        // if(computer.turn === true) return box.classList.add('computer')
     }
     const getWinner = (player) => {
         gameBoard.main.insertBefore(playAgain, gameBoard.board)
