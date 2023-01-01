@@ -31,7 +31,6 @@ const players = (name, mark, turn, score) => {
 }
 
 const getNameDialog = (() => {
-    // const body = document.querySelector('body')
     const dialog = document.getElementById('playerNameDialog')
         dialog.returnValue = 'playerName'
     const nameForm = document.getElementById('playerNameForm')
@@ -51,18 +50,12 @@ const getNameDialog = (() => {
             nameForm.reset()
             dialog.close()
         })
-    const namePlayer_1Btn = document.createElement('button')
-            namePlayer_1Btn.textContent = 'Player 1 Name'
-            namePlayer_1Btn.className = 'player1Btn'
-
+    const namePlayer_1Btn = document.getElementById('player1Btn')
             namePlayer_1Btn.addEventListener('pointerup', () => {
                 saveBtn.className = 'player1'
                 dialog.showModal()
             })
-    const namePlayer_2Btn = document.createElement('button')
-            namePlayer_2Btn.textContent = 'Player 2 Name'
-            namePlayer_2Btn.className = 'player2Btn'
-
+    const namePlayer_2Btn = document.getElementById('player2Btn')
             namePlayer_2Btn.addEventListener('pointerup', () => {
                 saveBtn.className = 'player2'
                 dialog.showModal()
@@ -124,20 +117,15 @@ const gamePlay = (() => {
         display.display_playersTurn.textContent = `Computer's turn.`
         let unplayedBox = gameBoard.boardBoxes.filter(box => !box.classList.contains('played'))
 
-        // if(unplayedBox.length === 0) {
-        //     return
-        // } else {
-            setTimeout(() => {
-                let randomBox = Math.floor(Math.random() * unplayedBox.length)
+        setTimeout(() => {
+            let randomBox = Math.floor(Math.random() * unplayedBox.length)
 
-                unplayedBox[randomBox].classList.add('played', 'computer')
-                unplayedBox[randomBox].textContent = computer.mark
-                
-                winningConditions.computerIndex(unplayedBox[randomBox])
-                togglePlayerTurn()
-                console.log('TEST!!!!!');
-                }, 600);
-        // }
+            unplayedBox[randomBox].classList.add('played', 'computer')
+            unplayedBox[randomBox].textContent = computer.mark
+            
+            winningConditions.computerIndex(unplayedBox[randomBox])
+            togglePlayerTurn()
+        }, 600);
     }
 
     let playingComputer = false
@@ -210,10 +198,7 @@ const gamePlay = (() => {
             player_1Turn()
         }resetPlayerTurns()
     }
-    // let gameOver = false
-    // const getGameOver = () => {
-    //     return gameOver = true
-    // }
+
     return { player_1Turn, togglePlayerTurn, startComputer, startOver, getScore }
 })()
 
