@@ -11,6 +11,23 @@
     <title>Tic-Tac-Toe</title>
 </head>
 <body>
-    
+    <div class="container">
+        <main>
+            <dialog id="playerNameDialog">
+                <form method="dialog" id="playerNameForm">
+                    <label for="playerNameForm">Player Name:</label>
+                    <input type="text"
+                           name="playerName"
+                           id="playerName"
+                           placeholder="Please enter your name."
+                           minlength="1">
+                </form>
+                <div>
+                    <button type="reset" id="dialogCancel">Cancel</button>
+                    <button type="submit" id="dialogSave">Save</button>
+                </div>
+            </dialog>
+        </main>
+    </div>
 </body>
 </html>

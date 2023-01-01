@@ -31,64 +31,50 @@ const players = (name, mark, turn, score) => {
 }
 
 const getNameDialog = (() => {
-    const body = document.querySelector('body')
+    // const body = document.querySelector('body')
+    const dialog = document.getElementById('playerNameDialog')
+        dialog.returnValue = 'playerName'
+    const nameForm = document.getElementById('playerNameForm')
+    const nameInput = document.getElementById('playerName')
 
-    const saveDialogBtn = document.createElement('button')
-            saveDialogBtn.textContent = 'Save'
-            saveDialogBtn.addEventListener('pointerup', () => {
-                if(saveDialogBtn.className === 'player1') {
-                    player_1.name = nameInput.value
-                    display.display_players.appendChild(display.display_playerNames)
-                    display.display_playerNames.textContent = `Player 1: ${player_1.name}`
-                } else if(saveDialogBtn.className === 'player2') {
-                    player_2.name = nameInput.value
-                    display.display_players.appendChild(display.display_playerNames)
-                    display.display_playerNames.textContent = `Player 1: ${player_1.name} Player 2: ${player_2.name}`
-                }
-                nameForm.reset()
-                dialog.close(dialog)
-            })
+    const saveBtn = document.getElementById('dialogSave')
+        saveBtn.addEventListener('pointerup', () => {
+            if(saveBtn.className === 'player1') {
+                player_1.name = nameInput.value
+                display.display_players.appendChild(display.display_playerNames)
+                display.display_playerNames.textContent = `Player 1: ${player_1.name}`
+            } else if(saveBtn.className === 'player2') {
+                player_2.name = nameInput.value
+                display.display_players.appendChild(display.display_playerNames)
+                display.display_playerNames.textContent = `Player 1: ${player_1.name} Player 2: ${player_2.name}`
+            }
+            nameForm.reset()
+            dialog.close()
+        })
     const namePlayer_1Btn = document.createElement('button')
             namePlayer_1Btn.textContent = 'Player 1 Name'
             namePlayer_1Btn.className = 'player1Btn'
 
             namePlayer_1Btn.addEventListener('pointerup', () => {
-                saveDialogBtn.className = 'player1'
-                dialog.showModal(dialog)
+                saveBtn.className = 'player1'
+                dialog.showModal()
             })
     const namePlayer_2Btn = document.createElement('button')
             namePlayer_2Btn.textContent = 'Player 2 Name'
             namePlayer_2Btn.className = 'player2Btn'
 
             namePlayer_2Btn.addEventListener('pointerup', () => {
-                saveDialogBtn.className = 'player2'
-                dialog.showModal(dialog)
+                saveBtn.className = 'player2'
+                dialog.showModal()
             })
-    const dialog = document.createElement('dialog')
-            body.appendChild(dialog)
-            dialog.id  = 'playerNameDialog'
-        const nameForm = document.createElement('form')
-            dialog.appendChild(nameForm)
-            nameForm.textContent = `Player's name: `
-            nameForm.setAttribute('method', 'dialog')
-            nameForm.setAttribute('label', 'playerName') 
 
-        const nameInput = document.createElement('input')
-            nameInput.setAttribute('type', 'text')
-            nameInput.setAttribute('name', 'playerName')
-            nameInput.setAttribute('placeholder', 'Name')
-            nameForm.appendChild(nameInput)
-
-        const cancelDialogBtn = document.createElement('button')
-            cancelDialogBtn.textContent = 'Cancel'
+        const cancelDialogBtn = document.getElementById('dialogCancel')
             cancelDialogBtn.addEventListener('pointerup', () => {
                 nameForm.reset()
-                dialog.close(dialog)
+                dialog.close()
             })
-        
-        dialog.appendChild(cancelDialogBtn)
-        dialog.appendChild(saveDialogBtn)
-    return { namePlayer_1Btn, namePlayer_2Btn, nameInput}
+
+    return { namePlayer_1Btn, namePlayer_2Btn, dialog, nameInput}
 })()
 
 const player_1 = players(getNameDialog.nameInput.value, 'X', true, 0)

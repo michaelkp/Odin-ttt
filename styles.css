@@ -23,9 +23,34 @@ main {
     border: 1px solid white;
     height: 100%;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
+dialog {
+    width: 50vw;
+    height: 20vh;
+}
+
+dialog form {
+    display: flex;
+    flex-direction: column;
+}
+
+.display_players {
+    color: white;
+    font-size: 2rem;
+}
+
+.displayText {
+    color: white;
+    font-size: 5rem;
+}
+
+.playAgain {
+    color: white;
+}
 .gameBoard {
     border: 1px solid white;
     display: grid;
@@ -37,9 +62,14 @@ main {
 
 .boardBox {
     display: flex;
-    justify-items: center;
+    justify-content: center;
     align-items: center;
+    text-align: center;
     border: 1px solid white;
     width: 1fr;
     height: 1fr;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10rem;
+    font-weight: bolder;
 }
